@@ -1,0 +1,11 @@
+---
+-  name: Unsubscribe openshift cluster
+   hosts: nodes
+   sudo: True
+   vars:
+    - rhsm_pool_name: 30 Day Supported OpenShift Enterprise, 2 Cores Evaluation
+   tasks:             
+     - name:  Unsubscribe instances 
+       redhat_subscription: >
+         pool="{{ rhsm_pool_name }}"
+         state=absent

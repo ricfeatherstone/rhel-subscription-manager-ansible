@@ -1,0 +1,29 @@
+---
+- include: patch_redhat_subscription.yml
+
+-  name: subscribe openshift cluster
+   hosts: nodes
+   sudo: True
+   vars:
+    - proxy_host: 
+    - proxy_port: 
+    - rhsm_pool_name: 30 Day Supported OpenShift Enterprise, 2 Cores Evaluation
+   vars_prompt:
+     - name: rshm_username
+       prompt: Username
+       private: no
+     - name: rhsm_password
+       prompt: Password
+       private: yes
+   tasks: 
+     - name: Configure proxy
+       command: >
+         subscription-manager config 
+         --server.proxy_hostname={{ proxy_host }} 
+         --server.proxy_port={{ proxy_port }}
+            
+     - name:  Subscribe instances 
+       redhat_subscription: >
+         username="{{ rshm_username }}"
+         password="{{ rhsm_password }}"
+         pool="{{ rhsm_pool_name }}"

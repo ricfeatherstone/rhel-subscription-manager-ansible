@@ -1,0 +1,12 @@
+---
+- name: patch redhat_subscription
+  hosts: localhost
+  sudo: True
+  tasks:
+    - name: install patch
+      yum: name=patch
+      
+    - name: patch redhat_subscription.py
+      patch: >
+        src=files/redhat_subscription.diff
+        dest=/usr/lib/python2.7/site-packages/ansible/modules/core/packaging/os/redhat_subscription.py
